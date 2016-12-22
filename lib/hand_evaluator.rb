@@ -1,12 +1,14 @@
+require './lib/hand'
 require './lib/hand_ranking'
 class HandEvaluator
   def return_stronger_hand(left, right)
-    hands = [HandRanking.rank(left), HandRanking.rank(right)]
+    @left = HandRanking.rank_hand(left)
+    @right = HandRanking.rank_hand(right)
 
-    if hands[0].kind == hands[1].kind
-      hands.max_by(&:points)
+    if @left.kind == @right.kind
+      [@left, @right].max_by { |h| h.rank.join.to_i}.hand
     else
-      hands.max_by(&:kind)
+      [@left, @right].max_by { |h| h.kind }.hand
     end
   end
 end
